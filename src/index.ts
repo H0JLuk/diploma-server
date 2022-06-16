@@ -16,9 +16,7 @@ app.use(cors);
 
 app.use('/graphql', graphqlHTTP({
   context,
-  graphiql: {
-    defaultQuery: config.defaultQuery,
-  } as undefined,
+  graphiql: true,
   schema,
 }));
 
@@ -31,8 +29,13 @@ async function start(): Promise<void> {
       await database.migrate.latest({ directory: config.database.migrations.directory });
     }
 
+    if ('seeds' in config.database) {
+      await database.seed.run({ directory: config.database.seeds.directory });
+    }
+
     app.listen(config.port, () => {
       console.log(`Server started at http://localhost:${ config.port }`);
+      console.log(`You can execute graphql queries at http://localhost:${ config.port }/graphql`);
     });
   } catch(error) {
     process.exit(1);

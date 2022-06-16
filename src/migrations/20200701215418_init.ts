@@ -4,12 +4,12 @@ import { Knex } from 'knex';
  * Migration to initialize database - create two tables with relationships between them.
  *
  * Command:
- * ./node_modules/.bin/knex migrate:make init -x ts --connection localhost --client mysql2 --migrations-directory ./src/migrations/
+ * ./node_modules/.bin/knex migrate:make init -x ts --connection localhost --client pg --migrations-directory ./src/migrations/
  *
  * @see https://knexjs.org/#Migrations-CLI
  * @param knex
  */
-export async function up(knex: Knex): Promise<any> {
+export async function up(knex: Knex) {
   return knex.schema.createTable('author', (author) => {
     author.increments('id').primary();
     author.string('firstName', 255).notNullable();
@@ -27,7 +27,7 @@ export async function up(knex: Knex): Promise<any> {
 }
 
 
-export async function down(knex: Knex): Promise<any> {
+export async function down(knex: Knex) {
   return knex.schema.dropTable('quote').dropTable('author');
 }
 
