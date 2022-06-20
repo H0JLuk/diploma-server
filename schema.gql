@@ -10,6 +10,12 @@ type AnswerEntity {
   text: String
 }
 
+type CategoryEntity {
+  id: ID!
+  name: String!
+  questions: [QuestionEntity!]
+}
+
 input CreateAnswerDto {
   image: String
   isRight: Boolean = false
@@ -17,8 +23,13 @@ input CreateAnswerDto {
   text: String
 }
 
+input CreateCategoryDto {
+  name: String!
+  questions: [CreateQuestionDto!] = []
+}
+
 input CreateQuestionDto {
-  answers: [CreateAnswerDto!]
+  answers: [CreateAnswerDto!] = []
   image: String
   text: String
   text_answer: String
@@ -27,7 +38,7 @@ input CreateQuestionDto {
 input CreateTestDto {
   duration: Float
   end_time: DateTime
-  questions: [CreateQuestionDto!]
+  questions: [CreateQuestionDto!] = []
   start_time: DateTime
   text_answer: String
   type: String
@@ -45,35 +56,41 @@ scalar DateTime
 
 type Mutation {
   createAnswer(createAnswer: CreateAnswerDto!): AnswerEntity!
+  createCategory(createCategory: CreateCategoryDto!): CategoryEntity!
   createQuestion(createQuestion: CreateQuestionDto!): QuestionEntity!
   createTest(createTest: CreateTestDto!): TestEntity!
   createUser(createUser: CreateUserDto!): UserEntity!
+  removeAnswer(id: Float!): Float!
+  removeCategory(id: Float!): Float!
   removeQuestion(id: Float!): Float!
   removeTest(id: Float!): Float!
   removeUser(id: Float!): Float!
   updateAnswer(updateAnswer: UpdateAnswerDto!): AnswerEntity!
+  updateCategory(updateCategory: UpdateCategoryDto!): CategoryEntity!
   updateQuestion(updateQuestion: UpdateQuestionDto!): QuestionEntity!
   updateTest(updateTest: UpdateTestDto!): TestEntity!
   updateUser(updateUser: UpdateUserDto!): UserEntity!
 }
 
 type Query {
+  getAllCategories: [CategoryEntity!]!
   getAllQuestions: [QuestionEntity!]!
   getAllTests: [TestEntity!]!
   getAllUsers: [UserEntity!]!
-  getAnswersByQuestionId(id: Float!): [AnswerEntity!]!
   getOneAnswer(id: Float!): AnswerEntity!
+  getOneCategory(id: Float!): CategoryEntity!
   getOneQuestion(id: Float!): QuestionEntity!
   getOneTest(id: Float!): TestEntity!
   getOneUser(id: Float!): UserEntity!
 }
 
 type QuestionEntity {
-  answers: [AnswerEntity!]
+  answers: [AnswerEntity!]!
+  categories: [CategoryEntity!]!
   id: ID!
   image: String
-  tests: [TestEntity!]
-  text: String
+  tests: [TestEntity!]!
+  text: String!
   text_answer: String
   type: String
 }
@@ -92,6 +109,11 @@ input UpdateAnswerDto {
   image: String
   isRight: Boolean!
   text: String
+}
+
+input UpdateCategoryDto {
+  id: ID!
+  name: String!
 }
 
 input UpdateQuestionDto {

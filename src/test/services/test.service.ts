@@ -17,12 +17,11 @@ export class TestService {
   ) {}
 
   async createTest(testDto: CreateTestDto): Promise<TestEntity> {
+    const questionList = testDto.questions.map((question) =>
+      this.questionsService.createQuestion(question),
+    );
+    testDto.questions = await Promise.all(questionList);
     const test = await this.testRepository.save(testDto);
-
-    for (const question of test.questions || []) {
-      console.log('create question');
-      await this.questionsService.createQuestion(question);
-    }
 
     return test;
   }
@@ -33,6 +32,13 @@ export class TestService {
 
   async getAllTests(): Promise<TestEntity[]> {
     return await this.testRepository.find();
+  }
+
+  async getTestWithQuestionsById(id: number): Promise<TestEntity> {
+    return await this.testRepository.findOne({
+      relations: ['questions'],
+      where: { id },
+    });
   }
 
   async updateTest(testDto: UpdateTestDto): Promise<TestEntity> {

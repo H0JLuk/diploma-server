@@ -17,7 +17,7 @@ export class AnswerEntity {
   id: number;
 
   @Field({ nullable: true })
-  @Column({ unique: true })
+  @Column({ nullable: true })
   text: string;
 
   @Field({ nullable: true })

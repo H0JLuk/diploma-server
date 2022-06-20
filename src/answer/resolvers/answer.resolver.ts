@@ -1,6 +1,7 @@
 import { forwardRef, Inject } from '@nestjs/common';
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -25,13 +26,6 @@ export class AnswerResolver {
     return await this.answerService.getOneAnswer(id);
   }
 
-  @Query(() => [AnswerEntity])
-  async getAnswersByQuestionId(
-    @Args('id') id: number,
-  ): Promise<AnswerEntity[]> {
-    return await this.answerService.getAnswersByQuestionId(id);
-  }
-
   @Mutation(() => AnswerEntity)
   async createAnswer(
     @Args('createAnswer') createAnswerDto: CreateAnswerDto,
@@ -46,8 +40,19 @@ export class AnswerResolver {
     return await this.answerService.updateAnswer(updateAnswerDto);
   }
 
-  // @ResolveField(() => QuestionEntity)
-  // async question(@Parent() answer: AnswerEntity): Promise<QuestionEntity> {
-  //   return this.questionService.getOneQuestion(answer.questionId);
-  // }
+  @Mutation(() => Number)
+  async removeAnswer(@Args('id') id: number): Promise<number> {
+    return await this.answerService.removeAnswer(id);
+  }
+
+  @ResolveField(() => QuestionEntity)
+  async question(@Parent() answer: AnswerEntity): Promise<QuestionEntity> {
+    return this.questionService.getOneQuestion(answer.questionId);
+  }
+
+  @ResolveField()
+  async isRight(@Parent() answer: AnswerEntity, @Context() context) {
+    console.log('context', context)
+    return answer.isRight;
+  }
 }

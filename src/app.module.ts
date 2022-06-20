@@ -8,6 +8,7 @@ import { QuestionsModule } from './question/question.module';
 import { UsersModule } from './users/users.module';
 import { AnswerModule } from './answer/answer.module';
 import { TestModule } from './test/test.module';
+import { CategoryModule } from './category/category.module'
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { TestModule } from './test/test.module';
     QuestionsModule,
     AnswerModule,
     TestModule,
+    CategoryModule,
     // ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
   ],
   controllers: [],

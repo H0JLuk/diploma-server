@@ -14,6 +14,6 @@ export class CreateQuestionDto {
   @Field({ nullable: true })
   text_answer: string;
 
-  @Field(() => [CreateAnswerDto], { nullable: true })
+  @Field(() => [CreateAnswerDto], { nullable: true, defaultValue: [] })
   answers: CreateAnswerDto[];
 }

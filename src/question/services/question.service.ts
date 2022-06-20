@@ -1,6 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AnswerEntity } from 'src/answer/entities';
 import { AnswerService } from 'src/answer/services/answer.service';
 import { Repository } from 'typeorm';
 
@@ -20,7 +19,7 @@ export class QuestionsService {
   async createQuestion(
     questionDto: CreateQuestionDto,
   ): Promise<QuestionEntity> {
-    const { image, text, text_answer, answers = [] } = questionDto;
+    const { image, text, text_answer, answers } = questionDto;
 
     const question = await this.questionRepository.save({
       image,
@@ -28,19 +27,33 @@ export class QuestionsService {
       text_answer,
     });
 
-    for (const answer of answers as AnswerEntity[]) {
-      console.log('create answer');
-      await this.answerService.createAnswer({
+    const answerList = answers.map((answer) =>
+      this.answerService.createAnswer({
         ...answer,
         questionId: question.id,
-      });
-    }
+      }),
+    );
+    await Promise.all(answerList);
 
     return question;
   }
 
   async getOneQuestion(id: number): Promise<QuestionEntity> {
     return await this.questionRepository.findOne({ where: { id } });
+  }
+
+  async getOneQuestionWithTests(id: number): Promise<QuestionEntity[]> {
+    return await this.questionRepository.find({
+      relations: ['tests'],
+      where: { id },
+    });
+  }
+
+  async getOneQuestionWithCategories(id: number): Promise<QuestionEntity[]> {
+    return await this.questionRepository.find({
+      relations: ['tests'],
+      where: { id },
+    });
   }
 
   async getAllQuestions(): Promise<QuestionEntity[]> {

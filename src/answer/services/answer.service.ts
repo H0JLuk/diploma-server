@@ -21,8 +21,7 @@ export class AnswerService {
   }
 
   async getAnswersByQuestionId(id: number): Promise<AnswerEntity[]> {
-    const question = await this.questionsService.getOneQuestion(id);
-    return await this.answerRepository.find({ where: { question } });
+    return await this.answerRepository.find({ where: { questionId: id } });
   }
 
   async getOneAnswer(id: number): Promise<AnswerEntity> {
