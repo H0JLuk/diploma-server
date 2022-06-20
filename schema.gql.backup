@@ -1,0 +1,90 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AnswerEntity {
+  id: ID!
+  image: String
+  isRight: Boolean!
+  question: QuestionEntity!
+  text: String
+}
+
+input CreateAnswerDto {
+  image: String
+  isRight: Boolean = false
+  text: String
+}
+
+input CreateQuestionDto {
+  image: String
+  text: String
+  text_answer: String
+}
+
+input CreateUserDto {
+  email: String!
+  name: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createAnswer(createAnswer: CreateAnswerDto!): AnswerEntity!
+  createQuestion(createQuestion: CreateQuestionDto!): QuestionEntity!
+  createUser(createUser: CreateUserDto!): UserEntity!
+  removeQuestion(id: Float!): Float!
+  removeUser(id: Float!): Float!
+  updateAnswer(updateAnswer: UpdateAnswerDto!): AnswerEntity!
+  updateQuestion(updateQuestion: UpdateQuestionDto!): QuestionEntity!
+  updateUser(updateUser: UpdateUserDto!): UserEntity!
+}
+
+type Query {
+  getAllQuestions: [QuestionEntity!]!
+  getAllUsers: [UserEntity!]!
+  getAnswersByQuestionId(id: Float!): [AnswerEntity!]!
+  getOneAnswer(id: Float!): AnswerEntity!
+  getOneQuestion(id: Float!): QuestionEntity!
+  getOneUser(id: Float!): UserEntity!
+}
+
+type QuestionEntity {
+  answers: [AnswerEntity!]!
+  id: ID!
+  image: String
+  text: String
+  text_answer: String
+  type: String
+}
+
+input UpdateAnswerDto {
+  id: ID!
+  image: String
+  isRight: Boolean!
+  text: String
+}
+
+input UpdateQuestionDto {
+  id: ID!
+  image: String
+  text: String
+  text_answer: String
+}
+
+input UpdateUserDto {
+  email: String
+  id: ID!
+  name: String
+}
+
+type UserEntity {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  name: String
+  updatedAt: DateTime!
+}
