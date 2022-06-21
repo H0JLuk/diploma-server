@@ -43,10 +43,9 @@ export class AuthService {
 
   private generateToken({ login, id, role }: UserEntity): string {
     const payload = { login, id, role };
-    let token = ''
+    let token = '';
     try {
       token = this.jwtService.sign(payload);
-
     } catch (e) {
       console.log(111);
       console.log(e);

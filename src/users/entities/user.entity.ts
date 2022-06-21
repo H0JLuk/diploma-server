@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { GqlUserRole, UserRole } from 'src/auth/user-role.enum';
+import { UserRole } from 'src/auth/user-role.enum';
 
 @ObjectType()
 @Entity('User')

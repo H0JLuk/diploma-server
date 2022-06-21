@@ -9,10 +9,10 @@ export class UserRolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     console.log('UserRolesGuard');
-    const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     if (!requiredRoles) {
       return true;
     }

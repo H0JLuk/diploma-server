@@ -1,8 +1,7 @@
-import { forwardRef, Inject, UseGuards } from '@nestjs/common';
+import { forwardRef, Inject } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { AnswerEntity } from 'src/answer/entities';
 import { AnswerService } from 'src/answer/services/answer.service';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 
 import { CreateQuestionDto, UpdateQuestionDto } from '../dto';
 import { QuestionEntity } from '../entities';

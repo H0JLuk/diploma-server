@@ -1,11 +1,4 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { CategoryService } from '../services/category.service';
 import { CategoryEntity } from '../entities';
@@ -32,16 +25,12 @@ export class CategoryResolver {
   }
 
   @Mutation(() => CategoryEntity)
-  async createCategory(
-    @Args('createCategory') categoryDto: CreateCategoryDto,
-  ): Promise<CategoryEntity> {
+  async createCategory(@Args('createCategory') categoryDto: CreateCategoryDto): Promise<CategoryEntity> {
     return await this.categoryService.createCategory(categoryDto);
   }
 
   @Mutation(() => CategoryEntity)
-  async updateCategory(
-    @Args('updateCategory') categoryDto: UpdateCategoryDto,
-  ): Promise<CategoryEntity> {
+  async updateCategory(@Args('updateCategory') categoryDto: UpdateCategoryDto): Promise<CategoryEntity> {
     return await this.categoryService.updateCategory(categoryDto);
   }
 
@@ -51,11 +40,8 @@ export class CategoryResolver {
   }
 
   @ResolveField(() => [QuestionEntity])
-  async questions(
-    @Parent() category: CategoryEntity,
-  ): Promise<QuestionEntity[]> {
-    const { questions } =
-      await this.categoryService.getOneCategoryWithQuestions(category.id);
+  async questions(@Parent() category: CategoryEntity): Promise<QuestionEntity[]> {
+    const { questions } = await this.categoryService.getOneCategoryWithQuestions(category.id);
     return questions;
   }
 }

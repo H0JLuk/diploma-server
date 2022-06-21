@@ -16,9 +16,7 @@ export class QuestionsService {
     private readonly questionRepository: Repository<QuestionEntity>,
   ) {}
 
-  async createQuestion(
-    questionDto: CreateQuestionDto,
-  ): Promise<QuestionEntity> {
+  async createQuestion(questionDto: CreateQuestionDto): Promise<QuestionEntity> {
     const { image, text, text_answer, answers } = questionDto;
 
     const question = await this.questionRepository.save({
@@ -60,9 +58,7 @@ export class QuestionsService {
     return await this.questionRepository.find();
   }
 
-  async updateQuestion(
-    questionDto: UpdateQuestionDto,
-  ): Promise<QuestionEntity> {
+  async updateQuestion(questionDto: UpdateQuestionDto): Promise<QuestionEntity> {
     await this.questionRepository.update({ id: questionDto.id }, questionDto);
     return this.getOneQuestion(questionDto.id);
   }

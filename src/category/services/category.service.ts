@@ -16,12 +16,8 @@ export class CategoryService {
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async createCategory(
-    categoryDto: CreateCategoryDto,
-  ): Promise<CategoryEntity> {
-    const questionList = categoryDto.questions.map((question) =>
-      this.questionsService.createQuestion(question),
-    );
+  async createCategory(categoryDto: CreateCategoryDto): Promise<CategoryEntity> {
+    const questionList = categoryDto.questions.map((question) => this.questionsService.createQuestion(question));
     categoryDto.questions = await Promise.all(questionList);
     const category = await this.categoryRepository.save(categoryDto);
 
@@ -43,9 +39,7 @@ export class CategoryService {
     });
   }
 
-  async updateCategory(
-    CategoryDto: UpdateCategoryDto,
-  ): Promise<CategoryEntity> {
+  async updateCategory(CategoryDto: UpdateCategoryDto): Promise<CategoryEntity> {
     await this.categoryRepository.update({ id: CategoryDto.id }, CategoryDto);
     return await this.getOneCategory(CategoryDto.id);
   }

@@ -17,9 +17,7 @@ export class TestService {
   ) {}
 
   async createTest(testDto: CreateTestDto): Promise<TestEntity> {
-    const questionList = testDto.questions.map((question) =>
-      this.questionsService.createQuestion(question),
-    );
+    const questionList = testDto.questions.map((question) => this.questionsService.createQuestion(question));
     testDto.questions = await Promise.all(questionList);
     const test = await this.testRepository.save(testDto);
 
