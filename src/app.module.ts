@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_GUARD } from '@nestjs/core';
 
 import { QuestionsModule } from './question/question.module';
 import { UsersModule } from './users/users.module';
@@ -10,8 +11,8 @@ import { AnswerModule } from './answer/answer.module';
 import { TestModule } from './test/test.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core'
-import { GqlAuthGuard } from './auth/guards/gql-auth.guard'
+import { GqlAuthGuard } from './auth/guards/gql-auth.guard';
+import { TestHistoryModule } from './test-history/test-history.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { GqlAuthGuard } from './auth/guards/gql-auth.guard'
     TestModule,
     CategoryModule,
     AuthModule,
+    TestHistoryModule,
     // ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
   ],
   controllers: [],

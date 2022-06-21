@@ -1,7 +1,6 @@
-import { Field, InputType, Parent, ResolveField } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { CreateAnswerDto } from 'src/answer/dto';
-import { AnswerEntity } from 'src/answer/entities';
-import { QuestionEntity } from '../entities';
+import { QuestionType } from '../entities/question.entity';
 
 @InputType()
 export class CreateQuestionDto {
@@ -13,6 +12,9 @@ export class CreateQuestionDto {
 
   @Field({ nullable: true })
   text_answer: string;
+
+  @Field({ nullable: true, defaultValue: QuestionType.single })
+  type: QuestionType;
 
   @Field(() => [CreateAnswerDto], { nullable: true, defaultValue: [] })
   answers: CreateAnswerDto[];

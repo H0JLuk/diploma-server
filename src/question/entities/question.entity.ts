@@ -5,6 +5,12 @@ import { AnswerEntity } from 'src/answer/entities';
 import { TestEntity } from 'src/test/entities';
 import { CategoryEntity } from 'src/category/entities';
 
+export enum QuestionType {
+  single = 'single',
+  multiple = 'multiple',
+  input = 'input',
+}
+
 @ObjectType()
 @Entity('Question')
 export class QuestionEntity {
@@ -20,9 +26,9 @@ export class QuestionEntity {
   @Column({ nullable: true, type: 'text' })
   image: string;
 
-  @Field({ nullable: true, defaultValue: 'single' })
-  @Column({ nullable: true, default: 'single' })
-  type: string;
+  @Field({ defaultValue: QuestionType.single })
+  @Column({ type: 'enum', enum: QuestionType, default: QuestionType.single })
+  type: QuestionType;
 
   @Field({ nullable: true })
   @Column({ nullable: true })

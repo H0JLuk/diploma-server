@@ -33,6 +33,7 @@ input CreateQuestionDto {
   image: String
   text: String
   text_answer: String
+  type: String = "single"
 }
 
 input CreateTestDto {
@@ -104,17 +105,29 @@ type QuestionEntity {
   tests: [TestEntity!]!
   text: String!
   text_answer: String
-  type: String
+  type: String!
 }
 
 type TestEntity {
   creator: [UserEntity!]
   duration: Float
   end_time: DateTime
+  histories: [TestHistoryEntity!]!
   id: ID!
   questions: [QuestionEntity!]
   start_time: DateTime
   type: String
+}
+
+type TestHistoryEntity {
+  answers: [AnswerEntity!]!
+  endTime: DateTime!
+  id: ID!
+  isRight: Boolean!
+  startTime: DateTime!
+  test: [TestEntity!]!
+  total: Float!
+  user: [UserEntity!]!
 }
 
 input UpdateAnswerDto {
@@ -159,4 +172,5 @@ type UserEntity {
   login: String!
   name: String
   role: String!
+  testsHistory: [TestHistoryEntity!]!
 }

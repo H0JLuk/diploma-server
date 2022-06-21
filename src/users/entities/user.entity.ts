@@ -3,6 +3,7 @@ import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 't
 
 import { UserRole } from 'src/auth/user-role.enum';
 import { TestEntity } from 'src/test/entities';
+import { TestHistoryEntity } from 'src/test-history/entities/test-history.entity';
 
 @ObjectType()
 @Entity('User')
@@ -19,7 +20,6 @@ export class UserEntity extends BaseEntity {
   @Column({ unique: true })
   login: string;
 
-  // @Field()
   @Column({ type: 'text' })
   password: string;
 
@@ -30,4 +30,8 @@ export class UserEntity extends BaseEntity {
   @Field(() => [TestEntity])
   @OneToMany(() => TestEntity, (test) => test.creator)
   createdTests: TestEntity[];
+
+  @Field(() => [TestHistoryEntity])
+  @OneToMany(() => TestHistoryEntity, (testHistory) => testHistory.user)
+  testsHistory: TestHistoryEntity[];
 }

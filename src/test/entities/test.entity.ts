@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { QuestionEntity } from 'src/question/entities';
-import { UserEntity } from 'src/users/entities'
+import { UserEntity } from 'src/users/entities';
+import { TestHistoryEntity } from 'src/test-history/entities/test-history.entity';
 
 @ObjectType()
 @Entity('Test')
@@ -38,4 +39,8 @@ export class TestEntity {
 
   @Column({ type: 'int', name: 'creator_id', nullable: true })
   creatorId: number;
+
+  @Field(() => [TestHistoryEntity])
+  @OneToMany(() => TestHistoryEntity, (testHistory) => testHistory.test)
+  histories: TestHistoryEntity[];
 }
