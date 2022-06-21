@@ -13,6 +13,7 @@ import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
 import { GqlAuthGuard } from './auth/guards/gql-auth.guard';
 import { TestHistoryModule } from './test-history/test-history.module';
+import { CurrentTestModule } from './current-test/current-test.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { TestHistoryModule } from './test-history/test-history.module';
     CategoryModule,
     AuthModule,
     TestHistoryModule,
+    CurrentTestModule,
     // ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
   ],
   controllers: [],

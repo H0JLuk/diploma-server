@@ -4,6 +4,7 @@ import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 't
 import { UserRole } from 'src/auth/user-role.enum';
 import { TestEntity } from 'src/test/entities';
 import { TestHistoryEntity } from 'src/test-history/entities/test-history.entity';
+import { CurrentTestEntity } from 'src/current-test/entities/current-test.entity';
 
 @ObjectType()
 @Entity('User')
@@ -34,4 +35,8 @@ export class UserEntity extends BaseEntity {
   @Field(() => [TestHistoryEntity])
   @OneToMany(() => TestHistoryEntity, (testHistory) => testHistory.user)
   testsHistory: TestHistoryEntity[];
+
+  @Field(() => [CurrentTestEntity])
+  @OneToMany(() => CurrentTestEntity, (currentTest) => currentTest.user)
+  currentTests: CurrentTestEntity[];
 }

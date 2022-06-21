@@ -53,6 +53,14 @@ input CreateUserDto {
   role: String = "Student"
 }
 
+type CurrentTestEntity {
+  answers: [AnswerEntity!]!
+  id: ID!
+  startTime: DateTime!
+  test: [TestEntity!]!
+  user: [UserEntity!]!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -168,6 +176,7 @@ input UpdateUserDto {
 
 type UserEntity {
   createdTests: [TestEntity!]!
+  currentTests: [CurrentTestEntity!]!
   id: ID!
   login: String!
   name: String

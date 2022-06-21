@@ -6,8 +6,8 @@ import { TestEntity } from 'src/test/entities';
 import { AnswerEntity } from 'src/answer/entities';
 
 @ObjectType()
-@Entity('Test_history')
-export class TestHistoryEntity {
+@Entity('Current_history')
+export class CurrentTestEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,23 +16,10 @@ export class TestHistoryEntity {
   @Column({ name: 'start_time' })
   startTime: Date;
 
-  @Field()
-  @Column({ name: 'end_time' })
-  endTime: Date;
-
-  @Field()
-  @Column({ type: 'int' })
-  total: number;
-
-  @Field({ defaultValue: false })
-  @Column({ default: false, name: 'is_right' })
-  isRight: boolean;
-
   @Field(() => [UserEntity])
-  @ManyToOne(() => UserEntity, (user) => user.testsHistory)
+  @ManyToOne(() => UserEntity, (user) => user.currentTests)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
-
   @Column({ type: 'int', name: 'user_id' })
   userId: number;
 
@@ -46,9 +33,9 @@ export class TestHistoryEntity {
   @Field(() => [AnswerEntity])
   @ManyToMany(() => AnswerEntity, { cascade: true })
   @JoinTable({
-    name: 'error_answer',
+    name: 'current_answer',
     joinColumn: {
-      name: 'Test_history',
+      name: 'Current_history',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
