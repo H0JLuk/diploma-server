@@ -8,7 +8,8 @@ import { QuestionsModule } from './question/question.module';
 import { UsersModule } from './users/users.module';
 import { AnswerModule } from './answer/answer.module';
 import { TestModule } from './test/test.module';
-import { CategoryModule } from './category/category.module'
+import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,11 @@ import { CategoryModule } from './category/category.module'
       sortSchema: true,
       playground: true,
       driver: ApolloDriver,
+      cors: {
+        credentions: true,
+        origin: true,
+      },
+      context: ({ req, res }) => ({ req, res }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -37,6 +43,7 @@ import { CategoryModule } from './category/category.module'
     AnswerModule,
     TestModule,
     CategoryModule,
+    AuthModule,
     // ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
   ],
   controllers: [],

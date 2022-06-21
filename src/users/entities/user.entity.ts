@@ -1,32 +1,28 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+import { GqlUserRole, UserRole } from 'src/auth/user-role.enum';
 
 @ObjectType()
 @Entity('User')
-export class UserEntity {
+export class UserEntity extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Field()
-  @Column()
-  email: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   name: string;
 
   @Field()
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ unique: true })
+  login: string;
 
-  @Field()
-  @UpdateDateColumn()
-  updatedAt: Date;
+  // @Field()
+  @Column({ type: 'text' })
+  password: string;
+
+  @Field({ defaultValue: UserRole.Student })
+  @Column({ enum: Object.values(UserRole), default: UserRole.Student })
+  role: string;
 }

@@ -1,14 +1,8 @@
-import { forwardRef, Inject } from '@nestjs/common';
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { AnswerEntity } from 'src/answer/entities';
 import { AnswerService } from 'src/answer/services/answer.service';
+import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 
 import { CreateQuestionDto, UpdateQuestionDto } from '../dto';
 import { QuestionEntity } from '../entities';
@@ -32,16 +26,12 @@ export class QuestionResolver {
   }
 
   @Mutation(() => QuestionEntity)
-  async createQuestion(
-    @Args('createQuestion') createQuestionDto: CreateQuestionDto,
-  ): Promise<QuestionEntity> {
+  async createQuestion(@Args('createQuestion') createQuestionDto: CreateQuestionDto): Promise<QuestionEntity> {
     return await this.questionsService.createQuestion(createQuestionDto);
   }
 
   @Mutation(() => QuestionEntity)
-  async updateQuestion(
-    @Args('updateQuestion') updateQuestionDto: UpdateQuestionDto,
-  ): Promise<QuestionEntity> {
+  async updateQuestion(@Args('updateQuestion') updateQuestionDto: UpdateQuestionDto): Promise<QuestionEntity> {
     return await this.questionsService.updateQuestion(updateQuestionDto);
   }
 

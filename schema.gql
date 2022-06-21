@@ -45,8 +45,10 @@ input CreateTestDto {
 }
 
 input CreateUserDto {
-  email: String!
-  name: String
+  login: String!
+  name: String!
+  password: String!
+  role: String = "Student"
 }
 
 """
@@ -54,12 +56,19 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input LoginUserDto {
+  login: String!
+  password: String!
+}
+
 type Mutation {
   createAnswer(createAnswer: CreateAnswerDto!): AnswerEntity!
   createCategory(createCategory: CreateCategoryDto!): CategoryEntity!
   createQuestion(createQuestion: CreateQuestionDto!): QuestionEntity!
   createTest(createTest: CreateTestDto!): TestEntity!
   createUser(createUser: CreateUserDto!): UserEntity!
+  login(userDto: LoginUserDto!): String!
+  registration(userDto: CreateUserDto!): Float!
   removeAnswer(id: Float!): Float!
   removeCategory(id: Float!): Float!
   removeQuestion(id: Float!): Float!
@@ -73,6 +82,7 @@ type Mutation {
 }
 
 type Query {
+  getAllAnswers: [AnswerEntity!]!
   getAllCategories: [CategoryEntity!]!
   getAllQuestions: [QuestionEntity!]!
   getAllTests: [TestEntity!]!
@@ -134,15 +144,15 @@ input UpdateTestDto {
 }
 
 input UpdateUserDto {
-  email: String
   id: ID!
+  login: String
   name: String
+  password: String
 }
 
 type UserEntity {
-  createdAt: DateTime!
-  email: String!
   id: ID!
+  login: String!
   name: String
-  updatedAt: DateTime!
+  role: String!
 }

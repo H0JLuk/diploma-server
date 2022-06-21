@@ -6,8 +6,11 @@ export default class UpdateUserDto {
   id: number;
 
   @Field({ nullable: true })
-  email: string;
+  login?: string;
 
   @Field({ nullable: true })
-  name: string;
+  name?: string;
+
+  @Field({ nullable: true })
+  password?: string;
 }

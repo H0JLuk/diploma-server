@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from 'src/auth/services/auth.service';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto, UpdateUserDto } from '../dto';
@@ -7,13 +8,21 @@ import { UserEntity } from '../entities';
 
 @Injectable()
 export class UsersService {
+  @Inject(AuthService)
+  private readonly authService: AuthService;
+
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async createUser(userDto: CreateUserDto): Promise<UserEntity> {
-    return await this.userRepository.save(userDto);
+    const hashPassword = await this.authService.hashPassword(userDto.password);
+    return await this.userRepository.save({ ...userDto, password: hashPassword });
+  }
+
+  async getOneUserBy(user: Partial<CreateUserDto>): Promise<UserEntity> {
+    return await this.userRepository.findOne({ where: user });
   }
 
   async getOneUser(id: number): Promise<UserEntity> {

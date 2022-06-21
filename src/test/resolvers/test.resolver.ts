@@ -3,10 +3,12 @@ import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/g
 import { TestService } from '../services/test.service';
 import { TestEntity } from '../entities';
 import { CreateTestDto, UpdateTestDto } from '../dto';
-import { QuestionEntity } from 'src/question/entities'
-import { Inject } from '@nestjs/common'
-import { QuestionsService } from 'src/question/services/question.service'
+import { QuestionEntity } from 'src/question/entities';
+import { Inject, UseGuards } from '@nestjs/common';
+import { QuestionsService } from 'src/question/services/question.service';
+import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => TestEntity)
 export class TestResolver {
   @Inject(QuestionsService)
@@ -25,16 +27,12 @@ export class TestResolver {
   }
 
   @Mutation(() => TestEntity)
-  async createTest(
-    @Args('createTest') testDto: CreateTestDto,
-  ): Promise<TestEntity> {
+  async createTest(@Args('createTest') testDto: CreateTestDto): Promise<TestEntity> {
     return await this.testService.createTest(testDto);
   }
 
   @Mutation(() => TestEntity)
-  async updateTest(
-    @Args('updateTest') testDto: UpdateTestDto,
-  ): Promise<TestEntity> {
+  async updateTest(@Args('updateTest') testDto: UpdateTestDto): Promise<TestEntity> {
     return await this.testService.updateTest(testDto);
   }
 
