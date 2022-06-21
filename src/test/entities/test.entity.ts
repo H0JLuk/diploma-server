@@ -1,7 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { QuestionEntity } from 'src/question/entities';
+import { UserEntity } from 'src/users/entities'
 
 @ObjectType()
 @Entity('Test')
@@ -29,4 +30,12 @@ export class TestEntity {
   @ManyToMany(() => QuestionEntity, (question) => question.tests)
   @Field(() => [QuestionEntity], { nullable: true })
   questions: QuestionEntity[];
+
+  @Field(() => [UserEntity], { nullable: true })
+  @ManyToOne(() => UserEntity, (user) => user.createdTests)
+  @JoinColumn({ name: 'creator_id' })
+  creator: UserEntity;
+
+  @Column({ type: 'int', name: 'creator_id', nullable: true })
+  creatorId: number;
 }

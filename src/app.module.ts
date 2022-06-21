@@ -10,6 +10,8 @@ import { AnswerModule } from './answer/answer.module';
 import { TestModule } from './test/test.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core'
+import { GqlAuthGuard } from './auth/guards/gql-auth.guard'
 
 @Module({
   imports: [
@@ -47,6 +49,11 @@ import { AuthModule } from './auth/auth.module';
     // ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: GqlAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

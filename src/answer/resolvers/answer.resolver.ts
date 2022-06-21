@@ -1,20 +1,15 @@
-import { forwardRef, Inject, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Args, Context, Field, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { forwardRef, Inject, UnauthorizedException } from '@nestjs/common';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 
-import { UserRoles } from 'src/auth/user-roles.decorator';
 import { UserRole } from 'src/auth/user-role.enum';
-import { UserRolesGuard } from 'src/auth/user-roles.guard';
 import { QuestionEntity } from 'src/question/entities';
 import { QuestionsService } from 'src/question/services/question.service';
 import { CreateAnswerDto, UpdateAnswerDto } from '../dto';
 import { AnswerEntity } from '../entities';
 import { AnswerService } from '../services/answer.service';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { UserEntity } from 'src/users/entities';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Resolver(() => AnswerEntity)
-@UseGuards(GqlAuthGuard) // TODO: uncomment line
 export class AnswerResolver {
   @Inject(forwardRef(() => QuestionsService))
   private readonly questionService: QuestionsService;

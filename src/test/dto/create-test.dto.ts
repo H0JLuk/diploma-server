@@ -18,6 +18,9 @@ export class CreateTestDto {
   @Field({ nullable: true })
   type: string;
 
+  @Field()
+  creatorId: number;
+
   @Field(() => [CreateQuestionDto], { nullable: true, defaultValue: [] })
   questions: CreateQuestionDto[];
 }

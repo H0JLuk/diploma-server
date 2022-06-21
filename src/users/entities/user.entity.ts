@@ -1,7 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { UserRole } from 'src/auth/user-role.enum';
+import { TestEntity } from 'src/test/entities';
 
 @ObjectType()
 @Entity('User')
@@ -23,6 +24,10 @@ export class UserEntity extends BaseEntity {
   password: string;
 
   @Field({ defaultValue: UserRole.Student })
-  @Column({ enum: Object.values(UserRole), default: UserRole.Student })
-  role: string;
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.Student })
+  role: UserRole;
+
+  @Field(() => [TestEntity])
+  @OneToMany(() => TestEntity, (test) => test.creator)
+  createdTests: TestEntity[];
 }

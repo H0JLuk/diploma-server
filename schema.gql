@@ -36,6 +36,7 @@ input CreateQuestionDto {
 }
 
 input CreateTestDto {
+  creatorId: Float!
   duration: Float
   end_time: DateTime
   questions: [CreateQuestionDto!] = []
@@ -68,7 +69,7 @@ type Mutation {
   createTest(createTest: CreateTestDto!): TestEntity!
   createUser(createUser: CreateUserDto!): UserEntity!
   login(userDto: LoginUserDto!): String!
-  registration(userDto: CreateUserDto!): Float!
+  registration(userDto: CreateUserDto!): String!
   removeAnswer(id: Float!): Float!
   removeCategory(id: Float!): Float!
   removeQuestion(id: Float!): Float!
@@ -87,6 +88,7 @@ type Query {
   getAllQuestions: [QuestionEntity!]!
   getAllTests: [TestEntity!]!
   getAllUsers: [UserEntity!]!
+  getMyselfUser: UserEntity!
   getOneAnswer(id: Float!): AnswerEntity!
   getOneCategory(id: Float!): CategoryEntity!
   getOneQuestion(id: Float!): QuestionEntity!
@@ -106,6 +108,7 @@ type QuestionEntity {
 }
 
 type TestEntity {
+  creator: [UserEntity!]
   duration: Float
   end_time: DateTime
   id: ID!
@@ -151,6 +154,7 @@ input UpdateUserDto {
 }
 
 type UserEntity {
+  createdTests: [TestEntity!]!
   id: ID!
   login: String!
   name: String

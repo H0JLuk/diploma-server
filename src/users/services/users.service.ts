@@ -1,6 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/services/auth.service';
+import { UserRole } from 'src/auth/user-role.enum';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto, UpdateUserDto } from '../dto';

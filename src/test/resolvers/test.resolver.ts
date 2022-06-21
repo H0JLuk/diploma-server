@@ -1,19 +1,14 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Inject } from '@nestjs/common';
 
 import { TestService } from '../services/test.service';
-import { TestEntity } from '../entities';
-import { CreateTestDto, UpdateTestDto } from '../dto';
 import { QuestionEntity } from 'src/question/entities';
-import { Inject, UseGuards } from '@nestjs/common';
+import { TestEntity } from '../entities';
 import { QuestionsService } from 'src/question/services/question.service';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { CreateTestDto, UpdateTestDto } from '../dto';
 
-@UseGuards(GqlAuthGuard)
 @Resolver(() => TestEntity)
 export class TestResolver {
-  @Inject(QuestionsService)
-  private readonly questionService: QuestionsService;
-
   constructor(private readonly testService: TestService) {}
 
   @Query(() => TestEntity)

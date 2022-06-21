@@ -13,5 +13,5 @@ export default class CreateUserDto {
   password: string;
 
   @Field({ defaultValue: UserRole.Student })
-  role: string;
+  role: UserRole;
 }

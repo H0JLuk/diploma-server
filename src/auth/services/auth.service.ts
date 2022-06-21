@@ -38,26 +38,20 @@ export class AuthService {
   }
 
   hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, 5);
+    return bcrypt.hash(password, process.env.PASSWORD_SALT);
   }
 
   private generateToken({ login, id, role }: UserEntity): string {
     const payload = { login, id, role };
-    let token = '';
-    try {
-      token = this.jwtService.sign(payload);
-    } catch (e) {
-      console.log(111);
-      console.log(e);
-    }
+    const token = this.jwtService.sign(payload);
     return `Bearer ${token}`;
   }
 
   private async validateUser({ login, password }: LoginUserDto): Promise<UserEntity> {
     const user = await this.usersService.getOneUserBy({ login });
-    const isPasswordEquals = await bcrypt.compare(password, user.password);
+    const isPasswordEquals = user && (await bcrypt.compare(password, user.password));
 
-    if (user && isPasswordEquals) {
+    if (isPasswordEquals) {
       return user;
     }
 
